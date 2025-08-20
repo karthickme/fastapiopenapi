@@ -7,6 +7,8 @@ on:
 jobs:
   extract-openapi:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
@@ -35,6 +37,8 @@ jobs:
           cat openapi.json
 
       - name: Commit OpenAPI JSON
+        permissions:
+          pull-requests: write
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
