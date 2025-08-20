@@ -7,6 +7,8 @@ on:
 jobs:
   extract-openapi:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
@@ -31,16 +33,24 @@ jobs:
           
       - name: Generate OpenAPI JSON
         run: |
-          python -c "import json; from main import app; print(json.dumps(app.openapi()))" > openapi.json
+          # python -c "import json; from main import app; print(json.dumps(app.openapi()))" > openapi.json
+          python -c "import json; from main import app; print(json.dumps(app.openapi(), indent=2, sort_keys=True))" > openapi.json
           cat openapi.json
 
       - name: Commit OpenAPI JSON
+        permissions:
+          pull-requests: write
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add openapi.json
           git commit -m "Update OpenAPI schema" || echo "No changes to commit"
           git log
-          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
