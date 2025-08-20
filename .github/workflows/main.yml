@@ -32,7 +32,8 @@ jobs:
       - name: Generate OpenAPI JSON
         run: |
           python -c "import json; from main import app; print(json.dumps(app.openapi()))" > openapi.json
-          
+          cat openapi.json
+
       - name: Commit OpenAPI JSON
         run: |
           git config --local user.email "action@github.com"
