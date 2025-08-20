@@ -8,7 +8,7 @@ jobs:
   extract-openapi:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v3
@@ -40,11 +40,12 @@ jobs:
 
       - name: Commit OpenAPI JSON
         run: |
+          git branch
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add openapi.json
           git commit -m "Update OpenAPI schema" || echo "No changes to commit"
-          git log
+          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
