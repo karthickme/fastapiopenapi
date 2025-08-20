@@ -45,6 +45,11 @@ jobs:
           git add openapi.json
           git commit -m "Update OpenAPI schema" || echo "No changes to commit"
           git log
-          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
