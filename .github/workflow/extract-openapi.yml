@@ -9,6 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Checkout PR Branch
+        run: |
+          PR_BRANCH=$(gh pr view ${{ github.event.pull_request.number }} --json headRefName -q .headRefName)
+          git fetch origin $PR_BRANCH
+          git checkout $PR_BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Set up Python
         uses: actions/setup-python@v4
