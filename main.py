@@ -14,9 +14,9 @@ async def home():
 async def greet_name(name: str):
     return {"message": f"Hi {name}"}
 
-@app.get("/number/{number}")
-async def greet_name(name: str):
-    return {"Number is ": f"Hi {number}"}
+# @app.get("/number/{number}")
+# async def greet_name(name: str):
+#     return {"Number is ": f"Hi {number}"}
 
 
 if __name__ == "__main__":
